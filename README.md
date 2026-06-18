@@ -67,7 +67,7 @@
             document.getElementById('sessId').value = "2-464776";
             const ref = "SA" + Math.floor(10000000 + Math.random() * 90000000) + "GB";
             document.getElementById('ref').value = ref;
-            document.getElementById('bld').value = Math.floor(Math.random() * 500) + 1;
+            document.getElementById('bld').value = Math.floor(Math.random() * 50) + 1;
             document.getElementById('pc').value = "UE76 1AK";
         }
 
