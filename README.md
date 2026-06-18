@@ -1,1 +1,128 @@
-# Check-up-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Royal Mail Receipt</title>
+    <style>
+        @page { size: 80mm auto; margin: 0; }
+        body { width: 76mm; margin: 0 auto; font-family: 'Courier New', Courier, monospace; font-size: 9pt; padding: 5px; }
+        
+        .top-info { margin-left: 10px; margin-right: 15px; margin-bottom: 30px; }
+        .top-row { display: flex; justify-content: space-between; margin: 2px 0; }
+        
+        .header-info { border-bottom: 2px solid #000; margin-bottom: 5px; padding-bottom: 5px; }
+        .row { display: flex; justify-content: space-between; margin-top: 2px; }
+        .entry { margin-top: 8px; padding-bottom: 2px; }
+        .center { text-align: center; margin-top: 5px; }
+        .bold { font-weight: bold; }
+        
+        .footer-note { font-size: 8pt; margin-top: 5px; font-style: italic; border-bottom: 1px dashed #000; padding-bottom: 5px; margin-bottom: 10px; }
+        
+        .no-print { margin-bottom: 20px; padding: 10px; border-bottom: 2px solid #000; background: #f0f0f0; }
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body>
+
+    <div class="no-print">
+        <h3>Receipt Generator</h3>
+        <button onclick="generateRandomData()" style="background: #4CAF50; color: white; padding: 10px; width: 100%; margin-bottom: 5px;">Generate Random Data</button>
+        
+        <input type="text" id="postDate" placeholder="Date (28/03/2026)"><br>
+        <input type="text" id="postTime" placeholder="Time (11:29)"><br>
+        <input type="text" id="sessId" placeholder="Session ID (2-464776)"><br>
+        <hr>
+        <input type="text" id="qty" placeholder="Quantity (New Header)"><br>
+        <input type="text" id="price" placeholder="Price"><br>
+        <input type="text" id="weight" placeholder="Weight"><br>
+        <input type="text" id="ref" placeholder="Reference Code"><br>
+        <input type="text" id="bld" placeholder="Building No"><br>
+        <input type="text" id="pc" placeholder="Postcode"><br>
+        <button onclick="addEntry()">Add to Receipt</button>
+        <button onclick="addFooter()" style="background: #2196F3; color: white;">Add Footer</button>
+        <button onclick="window.print()">Print Receipt</button>
+    </div>
+
+    <div id="receipt-container">
+        <div class="top-info">
+            <div class="top-row">
+                <span>Posting date:</span>
+                <span><span id="dispDate"></span> <span id="dispTime"></span></span>
+            </div>
+            <div class="top-row">
+                <span>Session ID:</span>
+                <span id="dispSess"></span>
+            </div>
+            <div class="top-row">
+                <span>After last acceptance time?</span>
+                <span>N</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateRandomData() {
+            document.getElementById('postDate').value = "28/03/2026";
+            document.getElementById('postTime').value = "11:29";
+            document.getElementById('sessId').value = "2-464776";
+            const ref = "SA" + Math.floor(10000000 + Math.random() * 90000000) + "GB";
+            document.getElementById('ref').value = ref;
+            document.getElementById('bld').value = Math.floor(Math.random() * 500) + 1;
+            document.getElementById('pc').value = "UE76 1AK";
+        }
+
+        function addEntry() {
+            const container = document.getElementById('receipt-container');
+            
+            // ডেটা আপডেট করা
+            document.getElementById('dispDate').innerText = document.getElementById('postDate').value;
+            document.getElementById('dispTime').innerText = document.getElementById('postTime').value;
+            document.getElementById('dispSess').innerText = document.getElementById('sessId').value;
+
+            const qty = document.getElementById('qty').value;
+            const price = document.getElementById('price').value;
+            const weight = document.getElementById('weight').value;
+
+            if (qty && price) {
+                container.innerHTML += `
+                <div class="header-info">
+                    <div class="row"><span>Destination Country</span> <span>UK (EU)</span></div>
+                    <div class="row"><span>Address Validated?</span> <span>N</span></div>
+                    <div class="row"><span class="bold">${qty} Special D by 1</span> <span>£${price}</span></div>
+                    <div class="row"><span>Small Parcel</span> <span></span></div>
+                    <div class="row"><span>Weight</span> <span>${weight}</span></div>
+                </div>`;
+            }
+
+            container.innerHTML += `
+                <div class="entry">
+                    <div class="center">
+                        <div>Reference number</div>
+                        <div class="bold">${document.getElementById('ref').value}</div>
+                    </div>
+                    <div class="row" style="margin-top:5px;">
+                        <span>Building Name or Number</span> <span>Postcode</span>
+                    </div>
+                    <div class="row bold">
+                        <span>${document.getElementById('bld').value}</span> <span>${document.getElementById('pc').value}</span>
+                    </div>
+                </div>`;
+            
+            // ইনপুট ক্লিন করা
+            document.getElementById('qty').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('weight').value = '';
+            document.getElementById('ref').value = '';
+            document.getElementById('bld').value = '';
+            document.getElementById('pc').value = '';
+        }
+
+        function addFooter() {
+            document.getElementById('receipt-container').innerHTML += `
+                <div class="footer-note">
+                    Next day guaranteed delivery service. Tracking and signature at royalmail.com.
+                </div>`;
+        }
+    </script>
+</body>
+</html>
