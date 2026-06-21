@@ -9,14 +9,15 @@
         
         .ocr-font { font-family: 'Letter Gothic', 'Courier New', monospace; font-size: 10pt; font-weight: bold; letter-spacing: 0.5px; }
         
-        .post-office-header { text-align: center; font-weight: bold; margin-bottom: 10px; border-bottom: 2px solid #000; padding-bottom: 5px; text-transform: uppercase; }
+        .post-office-header { text-align: center; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
         .address-box { margin-bottom: 15px; }
         .address-line { margin: 1px 0; }
 
         .top-info { margin-left: 10px; margin-right: 15px; margin-bottom: 20px; }
         .top-row { display: flex; justify-content: space-between; margin: 2px 0; }
         
-        .header-info { border-bottom: 2px solid #000; margin-bottom: 5px; padding-bottom: 5px; }
+        /* দাগ সরানো হয়েছে */
+        .header-info { margin-bottom: 5px; padding-bottom: 5px; }
         .row { display: flex; justify-content: space-between; margin-top: 2px; }
         .entry { margin-top: 8px; padding-bottom: 2px; }
         .center { text-align: center; margin-top: 5px; }
@@ -83,21 +84,16 @@
 
     <script>
         function generateRealTimeData() {
-            // Real Time & Date
             const now = new Date().toLocaleString("en-GB", {timeZone: "Europe/London"});
             const parts = now.split(', ');
             document.getElementById('postDate').value = parts[0];
             document.getElementById('postTime').value = parts[1].substring(0, 5);
             document.getElementById('sessId').value = "2-" + Math.floor(100000 + Math.random() * 900000);
             
-            // Random Reference
             const prefixes = ["SA", "SF", "MZ", "SG"];
             document.getElementById('ref').value = prefixes[Math.floor(Math.random() * prefixes.length)] + Math.floor(100000000 + Math.random() * 900000000) + "GB";
-            
-            // Random Building No
             document.getElementById('bld').value = Math.floor(Math.random() * 90) + 10;
             
-            // Random UK Postcode Generator
             const letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
             const randomLetter = () => letters.charAt(Math.floor(Math.random() * letters.length));
             document.getElementById('pc').value = randomLetter() + randomLetter() + Math.floor(Math.random()*9) + " " + Math.floor(Math.random()*9) + randomLetter() + randomLetter();
@@ -165,4 +161,3 @@
     </script>
 </body>
 </html>
-
